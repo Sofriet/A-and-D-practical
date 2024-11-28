@@ -5,4 +5,5 @@ Build the tallest tower by stacking pallets from a company stream, where each pa
 Input:
   - N: Number of pallets from a company.
   - v1, ..., vN: Sizes from company 1.
+<br>
 Output: Maximum tower height.
