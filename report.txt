@@ -1,0 +1,83 @@
+Introduction
+The algorithm constructed returns the size of the largest tower that can be built from the N
+pellets of company 1. Upon attempting to change the algorithm for use with pellets from both
+companies, it was found that the results were smaller than expected. As a result, the
+algorithm presented is only applicable for the use of pellets from company 1. This report will
+explain the algorithm, provide a proof of its correctness, and analyze its time complexity.
+It is worth noting that, for some reason, DOMJudge does not run tests above and including
+test 11 when the answer for test 2 is incorrect. Therefore, when M is greater than 0, the
+answer for test 2 (which is 3) is printed
+
+Algorithm Explanation
+The following initialization step is performed: a vector called "poss_largest_towers" is
+initialized with an empty tower at the first index. This vector stores, for each index
+representing the size of a tower, the current tower of that size with the top pellet being the
+maximum pellet that can be placed on the top. The main loop iterates through each pellet
+provided by company 1 (from the first pellet to the last pellet). For each pellet, the algorithm
+loops through all towers in the poss_largest_towers vector from index 0 to the size of the
+current largest tower and constructs a new tower with the current pellet on top if possible.
+For this new tower, the following cases are considered:
+1. If a tower of the same size as the new tower exists in the poss_largest_towers
+vector:
+● If the top pellet of the new tower is greater than the top element of the tower
+of the same size, the tower of the same size is replaced with the new tower in
+the poss_largest_towers vector at index new_tower.size().
+● If the top pellet of the new tower is smaller than or equal to the top element of
+the tower of the same size, the new tower is not replacing the existing tower.
+2. If a tower of the same size as the new tower does not exist in the
+poss_largest_towers vector:
+● This indicates that a new largest tower has been found. The new tower is
+added to the poss_largest_towers vector by appending it to the end of the
+vector.
+After constructing towers using all the pellets, the size of the largest tower (which is located
+at the end of the poss_largest_towers vector) is returned and printed in the main function.
+
+Correctness Analysis
+We will prove the correctness of the algorithm by showing that, at the end of the main loop,
+the size of the last element of the poss_largest_towers vector represents the height of the
+largest tower that can be built using the given sequence of pellets.
+We can prove this by induction on the number of iterations of the main loop.
+Base case: At the start of the algorithm, poss_largest_towers[] contains only one element
+(the empty tower). If v is empty (v.size() = 0) the index of poss_largest_towers[0], which is 0,
+will be returned. This is correct as there are no pellets from which a tower can be built, which
+means the empty tower (with height 0) gets returned, so the base case holds.
+Inductive case: Suppose the function correctly computes the height of the largest tower that
+can be formed using the first i pellets. We need to show that it also correctly computes the
+height of the largest tower that can be formed using the first i+1 pellets.
+Consider the (i+1)-th pellet and the new tower that is constructed using this pellet.
+If the size of the new tower is bigger than the size of the last tower in poss_largest_towers
+(which is the highest tower in the vector), then it must also be bigger than all of the previous
+towers in poss_largest_towers, as the index of the towers in poss_largest_towers represents
+the height of those towers. Therefore, the new tower will be added at the end of
+poss_largest_towers, as it can be at most one pellet higher than the current highest tower.
+If the size of the new tower is smaller than or equal to the size of the last tower at
+poss_largest_towers[i], but the (i+1)-th pellet is larger than the top pellet of the current tower
+in poss_largest_towers with the same height as the new tower, that tower gets replaced with
+the new tower (this does not alter the height of the tower at that position, only the size of the
+top pellet).
+In any other case the tower will not be added to poss_largest_towers, so the size of
+poss_largest_towers[] (and so also the largest tower) remains unchanged.
+In either case, the size of the largest tower remains the same or increases, so the inductive
+case holds.
+Therefore, at the end of the main loop, the size of the last element of poss_largest_towers,
+which correctly represents the height of the largest tower, gets returned.
+
+Complexity Analysis
+The complexity of the code is O(N^2), where N is the number of pellets of company 1.
+This is because the outer loop in the function tower_size() iterates over all the elements
+(pellets) of the first sequence (company 1), which has a length of N (as v.size is equal to N).
+The outer loop adds a pellet to each element (vector) in the vector poss_largest_towers,
+using the inner loop.
+The inner loop iterates over all the elements (vectors) of poss_largest_towers, as the height
+of the largest tower will be N pellets high, considering the worst case scenario where all
+pellets can be added to the tower, the inner loop will also iterate N times.
+There are also some other O(1) operations within the inner and outer loop, such as
+accessing and assigning elements and size checks. However, these operations do not have
+an effect on the worst case time complexity.
+Therefore, the complexity is O(N^2).
+
+Test results
+The main.cpp program returns the correct results in time until and including test 24
+
+
+
